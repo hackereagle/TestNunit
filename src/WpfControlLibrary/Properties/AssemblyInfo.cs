@@ -7,11 +7,11 @@ using System.Windows;
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
-[assembly: AssemblyTitle("TestNunit")]
+[assembly: AssemblyTitle("WpfControlLibrary")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TestNunit")]
+[assembly: AssemblyProduct("WpfControlLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,22 +31,22 @@ using System.Windows;
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
-[assembly: ThemeInfo(
+[assembly:ThemeInfo(
     ResourceDictionaryLocation.None, //主題特定資源字典的位置
-                                     //(在頁面中找不到時使用，
-                                     // 或應用程式資源字典中找不到資源時)
+                             //(在頁面中找不到時使用，
+                             // 或應用程式資源字典中找不到資源時)
     ResourceDictionaryLocation.SourceAssembly //泛型資源字典的位置
-                                              //(在頁面中找不到時使用，
-                                              // 或是應用程式或任何主題特定資源字典中找不到資源時)
+                                      //(在頁面中找不到時使用，
+                                      // 或是應用程式或任何主題特定資源字典中找不到資源時)
 )]
 
 
-// 組件的版本資訊由下列四個值所組成:
+// 組件的版本資訊由下列四個值所組成: 
 //
 //      主要版本
 //      次要版本
 //      組建編號
-//      修訂
+//      修訂編號
 //
 // 您可以指定所有的值，也可以使用 '*' 將組建和修訂編號
 // 設為預設，如下所示:
