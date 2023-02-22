@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfControlLibrary
+namespace WpfControlLibrary.Views
 {
     /// <summary>
-    /// UserControl1.xaml 的互動邏輯
+    /// CalculatorView.xaml 的互動邏輯
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class CalculatorView : UserControl
     {
-        public UserControl1()
+        public CalculatorView()
         {
             InitializeComponent();
         }
