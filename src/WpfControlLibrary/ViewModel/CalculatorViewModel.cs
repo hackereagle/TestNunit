@@ -18,6 +18,8 @@ namespace WpfControlLibrary.ViewModel
         public CalculatorViewModel()
         { 
             this.mCalculatorLogic = new BusinessLogics.CalculatorLogic();
+            this.mCalculatorLogic.Value.Subscribe(x => { this.Value = x; });
+            this.mCalculatorLogic.CurrentExpression.Subscribe(x => { this.CurrentExpression = x; });
 
             this.mNumberBtnCommand = new AsyncCommand<object>(this.NumberButtonCommand);
             this.mOperatorBtnCommand = new AsyncCommand<object>(this.OperatorButtonCommand);
@@ -25,8 +27,8 @@ namespace WpfControlLibrary.ViewModel
         }
 
         public ICommand NumberBtn => mNumberBtnCommand;
-        public ICommand OperatorBtn => mNumberBtnCommand;
-        public ICommand OtherBtn => mNumberBtnCommand;
+        public ICommand OperatorBtn => mOperatorBtnCommand;
+        public ICommand OtherBtn => mOtherBtnCommand;
 
         private string mCurrentExpression;
         public string CurrentExpression
@@ -53,19 +55,19 @@ namespace WpfControlLibrary.ViewModel
         private async Task NumberButtonCommand(object obj)
         {
             Button btn = (Button)obj;
-            await this.mCalculatorLogic.RecieveNumberCommand((string)btn.Content);
+            await this.mCalculatorLogic.ReceiveNumberCommand((string)btn.Content);
         }
 
         private async Task OperatorButtonCommand(object obj)
         { 
             Button btn = (Button)obj;
-            await this.mCalculatorLogic.RecieveOperatorCommand((string)btn.Content);
+            await this.mCalculatorLogic.ReceiveOperatorCommand((string)btn.Content);
         }
 
         private async Task OtherButtonCommand(object obj)
         { 
             Button btn = (Button)obj;
-            await this.mCalculatorLogic.RecieveOtherCommand((string)btn.Content);
+            await this.mCalculatorLogic.ReceiveOtherCommand((string)btn.Content);
         }
     }
 }

@@ -35,39 +35,39 @@
 
         <!-- Controls -->
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10" BorderBrush="Black" BorderThickness="3">
-            <TextBlock Background="White"/>
+            <TextBlock Background="White" Text="{Binding CurrentExpression}"/>
         </Border>
         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="10" BorderBrush="Black" BorderThickness="3">
-            <TextBlock Background="White"/>
+            <TextBlock Background="White" Text="{Binding Value}"/>
         </Border>
-        <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Content="%" Height="60" Width="60" Command="{Binding OtherBtn}"/>
-        <Button Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Content="CE" Height="60" Width="60" Command="{Binding OtherBtn}"/>
-        <Button Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Content="C" Height="60" Width="60" Command="{Binding OtherBtn}"/>
-        <Button Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Content="Del" Height="60" Width="60" Command="{Binding OtherBtn}"/>
+        <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Content="%" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Content="CE" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Content="C" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2" Content="Del" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
         <!-- Row 3-->
-        <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Content="1/x" Height="60" Width="60" Command="{Binding OtherBtn}"/>
-        <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Content="x^2" Height="60" Width="60" Command="{Binding OtherBtn}"/>
-        <Button Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Content="x^(1/2)" Height="60" Width="60" Command="{Binding OtherBtn}"/>
-        <Button Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="2" Content="/" Height="60" Width="60" Command="{Binding OperatorBtn}"/>
+        <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Content="1/x" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Content="x^2" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Content="x^(1/2)" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="2" Content="/" Height="60" Width="60" Command="{Binding OperatorBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
         <!-- Row 4-->
-        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Content="7" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Content="8" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" Content="9" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="4" Grid.Column="7" Grid.ColumnSpan="2" Content="*" Height="60" Width="60" Command="{Binding OperatorBtn}"/>
+        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Content="7" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Content="8" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" Content="9" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="4" Grid.Column="7" Grid.ColumnSpan="2" Content="*" Height="60" Width="60" Command="{Binding OperatorBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
         <!-- Row 5-->
-        <Button Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Content="4" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Content="5" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Content="6" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="2" Content="-" Height="60" Width="60" Command="{Binding OperatorBtn}"/>
+        <Button Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Content="4" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Content="5" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Content="6" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="2" Content="-" Height="60" Width="60" Command="{Binding OperatorBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
         <!-- Row 6-->
-        <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Content="1" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" Content="2" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="2" Content="3" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="6" Grid.Column="7" Grid.ColumnSpan="2" Content="+" Height="60" Width="60" Command="{Binding OperatorBtn}"/>
+        <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Content="1" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" Content="2" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="2" Content="3" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="6" Grid.Column="7" Grid.ColumnSpan="2" Content="+" Height="60" Width="60" Command="{Binding OperatorBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
         <!-- Row 7-->
-        <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Content="+/-" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" Content="0" Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="7" Grid.Column="5" Grid.ColumnSpan="2" Content="." Height="60" Width="60" Command="{Binding NumberBtn}"/>
-        <Button Grid.Row="7" Grid.Column="7" Grid.ColumnSpan="2" Content="=" Height="60" Width="60" Command="{Binding OperatorBtn}"/>
+        <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Content="+/-" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" Content="0" Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="7" Grid.Column="5" Grid.ColumnSpan="2" Content="." Height="60" Width="60" Command="{Binding NumberBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
+        <Button Grid.Row="7" Grid.Column="7" Grid.ColumnSpan="2" Content="=" Height="60" Width="60" Command="{Binding OperatorBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
     </Grid>
 </UserControl>

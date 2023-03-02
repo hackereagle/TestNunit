@@ -19,11 +19,14 @@ namespace WpfControlLibrary.BusinessLogics
 
         private Queue<string> mValQueue;
         public CalculatorLogic()
-        { }
+        { 
+            this.mValQueue = new Queue<string>();
+            this.mCurVal = new Subject<string>();
+            this.mCurExpression = new Subject<string>();
+        }
 
         private string mValStash = "";
-        private bool mNeedDisplayByDouble = false;
-        public async Task RecieveNumberCommand(string str)
+        public async Task ReceiveNumberCommand(string str)
         {
             await Task.Run(() =>
             {
@@ -33,46 +36,99 @@ namespace WpfControlLibrary.BusinessLogics
                 else
                     this.mValStash = this.mValStash + str;
 
-                if (str == ".")
-                    mNeedDisplayByDouble = true;
-
                 this.mCurVal.OnNext(this.mValStash);
             });
         }
 
-        public async Task RecieveOperatorCommand(string str)
+        private T CalculateInstance<T>(T n1, T n2, string opt)
+        {
+            Type type = typeof(T);
+            //if (type != typeof(double) || type != typeof(int) || type != typeof(float) ||
+            //    type != typeof(System.Int32) || type != typeof(System.Double) || type != typeof(System.Single))
+            //    throw new ArgumentException("Type is not double, int or float.");
+
+            dynamic _n1 = n1;
+            dynamic _n2 = n2;
+            dynamic result = -9999999999999;
+            if (opt == "+")
+            {
+                result = _n1 + _n2;
+                return result;
+            }
+            else if (opt == "-")
+            {
+                result = _n1 - _n2;
+                return result;
+            }
+            else if (opt == "*")
+            {
+                result = _n1 * _n2;
+                return result;
+            }
+            else if (opt == "/")
+            {
+                result = _n1 / _n2;
+                return result;
+            }
+            else
+            {
+                throw new ArgumentException("Undefined operator!");
+            }
+        }
+
+        private string Calculate(string num1, string opt, string num2)
+        { 
+            bool byDouble = num1.IndexOf(".") != -1 || num2.IndexOf(".") != -1;
+
+            if (byDouble)
+            { 
+                double n1 = double.Parse(num1);
+                double n2 = double.Parse(num2);
+                return $"{CalculateInstance<double>(n1, n2, opt)}";
+            }
+            else
+            { 
+                int n1 = int.Parse(num1);
+                int n2 = int.Parse(num2);
+                return $"{CalculateInstance<int>(n1, n2, opt)}";
+            }
+        }
+
+        public async Task ReceiveOperatorCommand(string str)
         {
             await Task.Run(() =>
             {
-                if (this.mValQueue.Count == 0)
+                if (this.mValStash != "")
                 {
-                    this.mValQueue.Enqueue(this.mValStash);
-                    this.mValQueue.Enqueue(str);
-                    this.mCurExpression.OnNext(this.mValStash + str);
-                }
-                else if (this.mValQueue.Count == 2 || str == "=")
-                {
-                }
-                else
-                {
-                    Console.WriteLine($"queue count = {this.mValQueue.Count}:");
-                    while (this.mValQueue.Count > 0)
+                    if (this.mValQueue.Count > 0)
                     {
-                        Console.WriteLine($"\t{this.mValQueue.Count}-th element = {this.mValQueue.Dequeue()}");
+                        this.mValQueue.Enqueue(str);
+                        this.mValQueue.Enqueue(this.mValStash);
                     }
-                    Console.WriteLine($"mValStash = {this.mValStash}");
-                    Console.WriteLine($"mCurExpression = {this.mCurExpression}");
-
-                    mValStash = "";
-                    mCurVal.OnNext(this.mValStash);
-                    mCurExpression.OnNext(this.mValStash);
-
-                    throw new Exception($"Occur error as CalculatorLogic.RecieveOperatorCommand\'s value queue over unexpected elements number!");
+                    else
+                    {
+                        this.mValQueue.Enqueue(this.mValStash);
+                        this.mValQueue.Enqueue(str);
+                        this.mCurExpression.OnNext(this.mValStash + str);
+                    }
+                    this.mValStash = "";
                 }
+                
+                if (this.mValQueue.Count > 2 || str == "=")
+                {
+                    string num1 = this.mValQueue.Dequeue();
+                    string opt = this.mValQueue.Dequeue();
+                    string num2 = this.mValQueue.Dequeue();
+                    string result = Calculate(num1, opt, num2);
+
+                    this.mValStash = result;
+                    this.mCurExpression.OnNext($"{num1} {opt} {num2}");
+                }
+                this.mCurVal.OnNext(this.mValStash);
             });
         }
 
-        public async Task RecieveOtherCommand(string str)
+        public async Task ReceiveOtherCommand(string str)
         {
             await Task.Run(() =>
             { 
