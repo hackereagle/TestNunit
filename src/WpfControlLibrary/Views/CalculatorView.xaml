@@ -35,10 +35,10 @@
 
         <!-- Controls -->
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10" BorderBrush="Black" BorderThickness="3">
-            <TextBlock Background="White" Text="{Binding CurrentExpression}"/>
+            <TextBlock Background="White" Text="{Binding CurrentExpression}" FontSize="32"/>
         </Border>
         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="10" BorderBrush="Black" BorderThickness="3">
-            <TextBlock Background="White" Text="{Binding Value}"/>
+            <TextBlock Background="White" Text="{Binding Value}" FontSize="32"/>
         </Border>
         <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Content="%" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>
         <Button Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Content="CE" Height="60" Width="60" Command="{Binding OtherBtn}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"/>

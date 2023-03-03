@@ -26,10 +26,19 @@ namespace WpfControlLibrary.BusinessLogics
         }
 
         private string mValStash = "";
+        private bool mIsCalculated = false;
         public async Task ReceiveNumberCommand(string str)
         {
             await Task.Run(() =>
             {
+                if (this.mIsCalculated)
+                {
+                    this.mCurExpression.OnNext("");
+                    this.mValStash = "";
+                    this.mCurVal.OnNext(this.mValStash);
+                    this.mIsCalculated = false;
+                }
+
                 if (str == "+/-") { 
                     this.mValStash = this.mValStash[0] == '-' ? this.mValStash.Substring(1) : "-" + this.mValStash;
                 }
@@ -42,11 +51,6 @@ namespace WpfControlLibrary.BusinessLogics
 
         private T CalculateInstance<T>(T n1, T n2, string opt)
         {
-            Type type = typeof(T);
-            //if (type != typeof(double) || type != typeof(int) || type != typeof(float) ||
-            //    type != typeof(System.Int32) || type != typeof(System.Double) || type != typeof(System.Single))
-            //    throw new ArgumentException("Type is not double, int or float.");
-
             dynamic _n1 = n1;
             dynamic _n2 = n2;
             dynamic result = -9999999999999;
@@ -98,40 +102,121 @@ namespace WpfControlLibrary.BusinessLogics
         {
             await Task.Run(() =>
             {
-                if (this.mValStash != "")
+                if (str == "=" && this.mValStash != "")
                 {
-                    if (this.mValQueue.Count > 0)
-                    {
-                        this.mValQueue.Enqueue(str);
-                        this.mValQueue.Enqueue(this.mValStash);
-                    }
-                    else
-                    {
-                        this.mValQueue.Enqueue(this.mValStash);
-                        this.mValQueue.Enqueue(str);
-                        this.mCurExpression.OnNext(this.mValStash + str);
-                    }
-                    this.mValStash = "";
-                }
-                
-                if (this.mValQueue.Count > 2 || str == "=")
-                {
+                    if (this.mValQueue.Count < 2)
+                        return;
+
                     string num1 = this.mValQueue.Dequeue();
                     string opt = this.mValQueue.Dequeue();
-                    string num2 = this.mValQueue.Dequeue();
-                    string result = Calculate(num1, opt, num2);
+                    string num2 = this.mValStash;
+                    this.mIsCalculated = true;
 
-                    this.mValStash = result;
-                    this.mCurExpression.OnNext($"{num1} {opt} {num2}");
+                    this.mCurExpression.OnNext($"{num1} {opt} {num2} = ");
+                    this.mValStash = Calculate(num1, opt, num2);
+                    this.mCurVal.OnNext(this.mValStash);
                 }
-                this.mCurVal.OnNext(this.mValStash);
+                else
+                {
+                    if (this.mValQueue.Count > 1)
+                    { 
+                        string num1 = this.mValQueue.Dequeue();
+                        string opt = this.mValQueue.Dequeue();
+                        string num2 = this.mValStash;
+                        this.mValStash = Calculate(num1, opt, num2);
+                        this.mCurVal.OnNext(this.mValStash);
+                    }
+
+                    this.mValQueue.Enqueue(this.mValStash);
+                    this.mValQueue.Enqueue(str);
+                    this.mCurExpression.OnNext($"{this.mValStash} {str}");
+
+                    this.mValStash = "";
+                    this.mCurVal.OnNext(this.mValStash);
+                }
             });
+        }
+
+        private double CalculateInstance<T>(T n1, string opt)
+        {
+            double _n1 = Convert.ToDouble(n1);
+            double result = -9999999999999.0;
+            if (opt == "%")
+            {
+                result = Convert.ToDouble(_n1) / 100.0;
+                return result;
+            }
+            else if (opt == "1/x")
+            {
+                result = 1.0 / _n1;
+                return result;
+            }
+            else if (opt == "x^2")
+            {
+                result = Math.Pow(_n1, 2.0);
+                return result;
+            }
+            else if (opt == "x^(1/2)")
+            {
+                result = Math.Sqrt(_n1);
+                return result;
+            }
+            else
+            {
+                throw new ArgumentException("Undefined operator!");
+            }
+        }
+
+        private string Calculate(string num1, string opt)
+        { 
+            bool byDouble = num1.IndexOf(".") != -1;
+
+            if (byDouble)
+            { 
+                double n1 = double.Parse(num1);
+                return $"{CalculateInstance<double>(n1, opt)}";
+            }
+            else
+            { 
+                int n1 = int.Parse(num1);
+                return $"{CalculateInstance<int>(n1, opt)}";
+            }
         }
 
         public async Task ReceiveOtherCommand(string str)
         {
             await Task.Run(() =>
-            { 
+            {
+                if (str == "C")
+                {
+                    this.mValStash = "";
+                    this.mCurVal.OnNext(this.mValStash);
+                    this.mCurExpression.OnNext(this.mValStash);
+                    this.mValQueue.Clear();
+                    this.mIsCalculated = false;
+                }
+                else if (str == "CE")
+                {
+                    this.mValStash = "";
+                    this.mCurVal.OnNext(this.mValStash);
+                }
+                else if (str == "Del")
+                {
+                    if (this.mIsCalculated)
+                    {
+                        this.mCurExpression.OnNext("");
+                    }
+                    else if (this.mValStash != "")
+                    {
+                        this.mValStash = this.mValStash.Remove(this.mValStash.Length - 1);
+                        this.mCurVal.OnNext(this.mValStash);
+                    }
+                }
+                else
+                {
+                    this.mValStash = Calculate(this.mValStash, str);
+                    this.mCurVal.OnNext(this.mValStash);
+                }
             });
         }
     }
