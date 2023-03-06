@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace WpfControlLibrary.UnitTest
 {
@@ -172,6 +173,37 @@ namespace WpfControlLibrary.UnitTest
 
     [TestFixture]
     class TestMvvmFromViewModel
-    { 
+    {
+        ViewModel.CalculatorViewModel mViewModel;
+        string CurrentValueTextBlockText = "";
+        string CurrentExpressionTextBlockText = "";
+
+        private void CreateButtons()
+        {
+
+        }
+
+        [SetUp]
+        public void SetUp()
+        { 
+            this.mViewModel = new ViewModel.CalculatorViewModel();
+            CreateButtons();
+        }
+
+        [Test]
+        public void TestTypeNumberInInitialState()
+        {
+            // Arrange
+            string[] btns = { "1", "2", "3", "4"};
+
+            // Act
+            foreach (var b in btns)
+            {
+                this.mViewModel.NumberBtn.Execute(b);
+            }
+
+            // Assert
+            Assert.IsTrue(this.mViewModel.Value == "1234", $"this value = {this.mViewModel.Value}, not 1234");
+        }
     }
 }
