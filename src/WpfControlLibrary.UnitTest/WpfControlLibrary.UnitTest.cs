@@ -1,5 +1,12 @@
+using NUnit.Framework;
+using WpfControlLibrary;
+using WpfControlLibrary.Base;
+using WpfControlLibrary.Views;
+using System;
+using System.Windows.Threading;
+using System.Threading.Tasks;
 using System.ComponentModel;
-//using System.Windows.Controls;
+using System.Windows.Controls;
 
 namespace WpfControlLibrary.UnitTest
 {
