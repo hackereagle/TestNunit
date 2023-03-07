@@ -185,9 +185,42 @@ namespace WpfControlLibrary.UnitTest
         string CurrentValueTextBlockText = "";
         string CurrentExpressionTextBlockText = "";
 
+        private System.Collections.Generic.Dictionary<string, System.Windows.Controls.Button> mButtons;
         private void CreateButtons()
         {
+            mButtons = new System.Collections.Generic.Dictionary<string, Button>();
+            // number
+            mButtons.Add("1", new System.Windows.Controls.Button());
+            mButtons.Add("2", new System.Windows.Controls.Button());
+            mButtons.Add("3", new System.Windows.Controls.Button());
+            mButtons.Add("4", new System.Windows.Controls.Button());
+            mButtons.Add("5", new System.Windows.Controls.Button());
+            mButtons.Add("6", new System.Windows.Controls.Button());
+            mButtons.Add("7", new System.Windows.Controls.Button());
+            mButtons.Add("8", new System.Windows.Controls.Button());
+            mButtons.Add("9", new System.Windows.Controls.Button());
+            mButtons.Add("0", new System.Windows.Controls.Button());
+            mButtons.Add(".", new System.Windows.Controls.Button());
+            mButtons.Add("+/-", new System.Windows.Controls.Button());
+            // operator
+            mButtons.Add("+", new System.Windows.Controls.Button());
+            mButtons.Add("-", new System.Windows.Controls.Button());
+            mButtons.Add("*", new System.Windows.Controls.Button());
+            mButtons.Add("/", new System.Windows.Controls.Button());
+            mButtons.Add("=", new System.Windows.Controls.Button());
+            // other
+            mButtons.Add("Del", new System.Windows.Controls.Button());
+            mButtons.Add("C", new System.Windows.Controls.Button());
+            mButtons.Add("CE", new System.Windows.Controls.Button());
+            mButtons.Add("1/x", new System.Windows.Controls.Button());
+            mButtons.Add("x^2", new System.Windows.Controls.Button());
+            mButtons.Add("x^(1/2)", new System.Windows.Controls.Button());
 
+            foreach (var b in mButtons)
+            {
+                string str = b.Key;
+                b.Value.Content = str;
+            }
         }
 
         [SetUp]
@@ -197,6 +230,14 @@ namespace WpfControlLibrary.UnitTest
             CreateButtons();
         }
 
+        private void ClickButton(ViewModel.CalculatorViewModel logic, string[] nums)
+        { 
+            foreach (var n in nums)
+            {
+                this.mViewModel.NumberBtn.Execute(this.mButtons[n]);
+            }
+        }
+
         [Test]
         public void TestTypeNumberInInitialState()
         {
@@ -204,10 +245,7 @@ namespace WpfControlLibrary.UnitTest
             string[] btns = { "1", "2", "3", "4"};
 
             // Act
-            foreach (var b in btns)
-            {
-                this.mViewModel.NumberBtn.Execute(b);
-            }
+            ClickButton(this.mViewModel, btns);
 
             // Assert
             Assert.IsTrue(this.mViewModel.Value == "1234", $"this value = {this.mViewModel.Value}, not 1234");
