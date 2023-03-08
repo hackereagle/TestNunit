@@ -54,20 +54,23 @@ namespace WpfControlLibrary.ViewModel
 
         private async Task NumberButtonCommand(object obj)
         {
-            Button btn = (Button)obj;
-            await this.mCalculatorLogic.ReceiveNumberCommand((string)btn.Content);
+            //Button btn = (Button)obj;
+            //await this.mCalculatorLogic.ReceiveNumberCommand((string)btn.Content);
+            await this.mCalculatorLogic.ReceiveNumberCommand((string)obj);
         }
 
         private async Task OperatorButtonCommand(object obj)
         { 
-            Button btn = (Button)obj;
-            await this.mCalculatorLogic.ReceiveOperatorCommand((string)btn.Content);
+            //Button btn = (Button)obj;
+            //await this.mCalculatorLogic.ReceiveOperatorCommand((string)btn.Content);
+            await this.mCalculatorLogic.ReceiveOperatorCommand((string)obj);
         }
 
         private async Task OtherButtonCommand(object obj)
         { 
-            Button btn = (Button)obj;
-            await this.mCalculatorLogic.ReceiveOtherCommand((string)btn.Content);
+            //Button btn = (Button)obj;
+            //await this.mCalculatorLogic.ReceiveOtherCommand((string)btn.Content);
+            await this.mCalculatorLogic.ReceiveOtherCommand((string)obj);
         }
     }
 }
