@@ -82,48 +82,6 @@ namespace WpfControlLibrary.UnitTest
             Assert.IsTrue(this.CurrentValueTextBlock == "1234", $"this value = {this.CurrentValueTextBlock}, not 1234");
         }
 
-        private int ConvertStringArrayToInt(string[] nums)
-        {
-            int ret = 0;
-            int i = 0;
-            int n = 0;
-            while (i < nums.Length && int.TryParse(nums[i], out n))
-            {
-                ret = ret * 10 + n;
-                i++;
-            }
-            return ret;
-        }
-
-        private int Calculate_TestInputNum_Operator_Num_Expected(string[] num1, string opt, string[] num2)
-        {
-            int ret = 0;
-            int _num1 = ConvertStringArrayToInt(num1);
-            int _num2 = ConvertStringArrayToInt(num2);
-
-            if (opt == "+")
-            {
-                ret = _num1 + _num2;
-            }
-            else if (opt == "-")
-            { 
-                ret = _num1 - _num2;
-            }
-            else if (opt == "*")
-            { 
-                ret = _num1 * _num2;
-            }
-            else if (opt == "/")
-            {
-                if (_num2 == 0)
-                    throw new Exception("Divisor cannot be zero");
-
-                ret = _num1 / _num2;
-            }
-
-            return ret;
-        }
-
         [TestCase("+")]
         [TestCase("-")]
         [TestCase("*")]
@@ -143,7 +101,7 @@ namespace WpfControlLibrary.UnitTest
             await logic.ReceiveOperatorCommand("=");
 
             // Assert
-            int expected = Calculate_TestInputNum_Operator_Num_Expected(num1, opt, num2);
+            int expected = CalculatorTestResultValidationHelper.Instance.Calculate_TestInputNum_Operator_Num_Expected(num1, opt, num2);
             string expectedExpression = string.Join("", num1) + " " + opt + " " + string.Join("", num2) + " = "; 
             Assert.IsTrue(this.CurrentValueTextBlock == expected.ToString(), $"this value = {this.CurrentValueTextBlock}, not {expected}");
             Assert.IsTrue(this.CurrentExpressionTextBlock == expectedExpression, $"current expression = {this.CurrentExpressionTextBlock}, not {expectedExpression}");
@@ -184,8 +142,6 @@ namespace WpfControlLibrary.UnitTest
         ViewModel.CalculatorViewModel mViewModel;
         string CurrentValueTextBlockText = "";
         string CurrentExpressionTextBlockText = "";
-
-        private System.Collections.Generic.Dictionary<string, System.Windows.Controls.Button> mButtons;
 
         [SetUp]
         public void SetUp()
