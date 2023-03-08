@@ -139,21 +139,24 @@ namespace WpfControlLibrary.UnitTest
     [TestFixture]
     class TestMvvmFromViewModel
     {
-        ViewModel.CalculatorViewModel mViewModel;
         string CurrentValueTextBlockText = "";
         string CurrentExpressionTextBlockText = "";
 
         [SetUp]
         public void SetUp()
         { 
-            this.mViewModel = new ViewModel.CalculatorViewModel();
         }
 
-        private void ClickButton(ViewModel.CalculatorViewModel logic, string[] nums)
+        void CreateTestObject(out ViewModel.CalculatorViewModel vm)
+        { 
+            vm = new ViewModel.CalculatorViewModel();
+        }
+
+        private void ClickButton(ViewModel.CalculatorViewModel vm, string[] nums)
         { 
             foreach (var n in nums)
             {
-                this.mViewModel.NumberBtn.Execute(n);
+                vm.NumberBtn.Execute(n);
                 System.Threading.Thread.Sleep(10);
             }
         }
@@ -162,13 +165,15 @@ namespace WpfControlLibrary.UnitTest
         public void TestTypeNumberInInitialState()
         {
             // Arrange
+            ViewModel.CalculatorViewModel vm;
+            CreateTestObject(out vm);
             string[] btns = { "1", "2", "3", "4"};
 
             // Act
-            ClickButton(this.mViewModel, btns);
+            ClickButton(vm, btns);
 
             // Assert
-            Assert.IsTrue(this.mViewModel.Value == "1234", $"this value = {this.mViewModel.Value}, not 1234");
+            Assert.IsTrue(vm.Value == "1234", $"this value = {vm.Value}, not 1234");
         }
     }
 }
