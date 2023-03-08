@@ -152,7 +152,7 @@ namespace WpfControlLibrary.UnitTest
             vm = new ViewModel.CalculatorViewModel();
         }
 
-        private void ClickButton(ViewModel.CalculatorViewModel vm, string[] nums)
+        private void ClickNumberButton(ViewModel.CalculatorViewModel vm, string[] nums)
         { 
             foreach (var n in nums)
             {
@@ -165,15 +165,104 @@ namespace WpfControlLibrary.UnitTest
         public void TestTypeNumberInInitialState()
         {
             // Arrange
-            ViewModel.CalculatorViewModel vm;
+            ViewModel.CalculatorViewModel vm = null;
             CreateTestObject(out vm);
             string[] btns = { "1", "2", "3", "4"};
 
             // Act
-            ClickButton(vm, btns);
+            ClickNumberButton(vm, btns);
 
             // Assert
             Assert.IsTrue(vm.Value == "1234", $"this value = {vm.Value}, not 1234");
+        }
+
+        [Test]
+        public void TypeNumberAndAddMinus()
+        {
+            // Arrange
+            ViewModel.CalculatorViewModel vm = null;
+            CreateTestObject(out vm);
+            string[] btns = { "1", "2", "3", "4", "+/-"};
+
+            // Act
+            ClickNumberButton(vm, btns);
+
+            // Assert
+            Assert.IsTrue(vm.Value == "-1234", $"this value = {vm.Value}, not 1234");
+
+        }
+
+        [Test]
+        public void TestHaveMinusNumBecomePositive()
+        {
+            // Arrange
+            ViewModel.CalculatorViewModel vm = null;
+            CreateTestObject(out vm);
+            string[] btns = { "1", "2", "3", "4", "+/-", "+/-"};
+
+            // Act
+            ClickNumberButton(vm, btns);
+
+            // Assert
+            Assert.IsTrue(vm.Value == "1234", $"this value = {vm.Value}, not 1234");
+        }
+
+        [TestCase("+")]
+        [TestCase("-")]
+        [TestCase("*")]
+        [TestCase("/")]
+        public void TestInputNum_Operator_Num(string opt)
+        {
+            // Arrange
+            ViewModel.CalculatorViewModel vm = null;
+            CreateTestObject(out vm);
+            string[] num1 = {"1", "2", "3", "4"};
+            string[] num2 = {"5", "6", "7", "8", "9"};
+
+            // Act
+            ClickNumberButton(vm, num1);
+            vm.OperatorBtn.Execute(opt);
+            ClickNumberButton(vm, num2);
+            vm.OperatorBtn.Execute("=");
+            System.Threading.Thread.Sleep(100);
+
+            // Assert
+            int expected = CalculatorTestResultValidationHelper.Instance.Calculate_TestInputNum_Operator_Num_Expected(num1, opt, num2);
+            string expectedExpression = string.Join("", num1) + " " + opt + " " + string.Join("", num2) + " = "; 
+            Assert.IsTrue(vm.Value == expected.ToString(), $"this value = {vm.Value}, not {expected}");
+            Assert.IsTrue(vm.CurrentExpression == expectedExpression, $"current expression = {vm.CurrentExpression}, not {expectedExpression}");
+        }
+
+        [Test]
+        public void TestContinuouslyTypeNumAndOperator()
+        {
+            // Arrange
+            ViewModel.CalculatorViewModel vm = null;
+            CreateTestObject(out vm);
+            string[] num1 = {"1", "2", "3", "4"};
+            string[] num2 = {"5", "6", "7", "8", "9"};
+            string[] num3 = {"9", "0", "8"};
+            string[] num4 = {"1", "1", "1"};
+
+            // Act
+            ClickNumberButton(vm, num1);
+            vm.OperatorBtn.Execute("+");
+            System.Threading.Thread.Sleep(100);
+            ClickNumberButton(vm, num2);
+            vm.OperatorBtn.Execute("*");
+            System.Threading.Thread.Sleep(100);
+            ClickNumberButton(vm, num3);
+            vm.OperatorBtn.Execute("-");
+            System.Threading.Thread.Sleep(100);
+            ClickNumberButton(vm, num4);
+            vm.OperatorBtn.Execute("=");
+            System.Threading.Thread.Sleep(100);
+
+            // Assert
+            int expected = 52684773;
+            string expectedExpression = "52684884 - 111 = "; 
+            Assert.IsTrue(vm.Value == expected.ToString(), $"this value = {vm.Value}, not {expected}");
+            Assert.IsTrue(vm.CurrentExpression == expectedExpression, $"current expression = {vm.CurrentExpression}, not {expectedExpression}");
         }
     }
 }
