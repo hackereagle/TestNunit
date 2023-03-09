@@ -207,6 +207,7 @@ namespace WpfControlLibrary.UnitTest
             Assert.IsTrue(vm.Value == "1234", $"this value = {vm.Value}, not 1234");
         }
 
+        private readonly int WAIT_OPT_BTN_TIME = 100;
         [TestCase("+")]
         [TestCase("-")]
         [TestCase("*")]
@@ -222,9 +223,10 @@ namespace WpfControlLibrary.UnitTest
             // Act
             ClickNumberButton(vm, num1);
             vm.OperatorBtn.Execute(opt);
+            System.Threading.Thread.Sleep(this.WAIT_OPT_BTN_TIME);
             ClickNumberButton(vm, num2);
             vm.OperatorBtn.Execute("=");
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(this.WAIT_OPT_BTN_TIME);
 
             // Assert
             int expected = CalculatorTestResultValidationHelper.Instance.Calculate_TestInputNum_Operator_Num_Expected(num1, opt, num2);
@@ -247,16 +249,16 @@ namespace WpfControlLibrary.UnitTest
             // Act
             ClickNumberButton(vm, num1);
             vm.OperatorBtn.Execute("+");
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(this.WAIT_OPT_BTN_TIME);
             ClickNumberButton(vm, num2);
             vm.OperatorBtn.Execute("*");
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(this.WAIT_OPT_BTN_TIME);
             ClickNumberButton(vm, num3);
             vm.OperatorBtn.Execute("-");
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(this.WAIT_OPT_BTN_TIME);
             ClickNumberButton(vm, num4);
             vm.OperatorBtn.Execute("=");
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(this.WAIT_OPT_BTN_TIME);
 
             // Assert
             int expected = 52684773;
